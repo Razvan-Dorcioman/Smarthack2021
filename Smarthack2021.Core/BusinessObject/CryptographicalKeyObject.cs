@@ -1,4 +1,5 @@
 ﻿using System;
+using Smarthack2021.Core.Enums;
 
 namespace Smarthack2021.Core.BusinessObject
 {
@@ -11,5 +12,7 @@ namespace Smarthack2021.Core.BusinessObject
         public string EncryptedPrivateKey { get; set; }
 
         public string EncryptedPublicKey { get; set; }
+        
+        public CryptoType Type { get; set; }
     }
 }

@@ -37,9 +37,10 @@ namespace Smarthack2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICryptoOrchestrator, CryptoOrchestrator>();
-            services.AddSingleton<IKeyVaultService, KeyVaultService>();
-            services.AddSingleton<IRSAEncryption, RSAEncryption>();
+            services.AddTransient<ICryptoOrchestrator, CryptoOrchestrator>();
+            services.AddTransient<IKeyVaultService, KeyVaultService>();
+            services.AddTransient<IRSAEncryption, RSAEncryption>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddControllers();
 

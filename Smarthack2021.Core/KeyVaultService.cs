@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Azure;
 using Azure.Identity;
 using Azure.Security.KeyVault.Keys;
+using Microsoft.Extensions.Azure;
 using Smarthack2021.Core.CryptoAbstractions;
 
 namespace Smarthack2021.Core
@@ -19,7 +20,7 @@ namespace Smarthack2021.Core
         public async Task<KeyVaultKey> GetKey(string keyName)
         {
             var key = await _client.GetKeyAsync(keyName);
-
+            
             return key.Value;
         }
     }
