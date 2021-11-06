@@ -13,5 +13,9 @@ namespace Smarthack2021.Core.BusinessObject
     {
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpirationTime { get; set; }
+
+        public List<PasswordObject> Passwords { get; set; }
+        
+        public List<CryptographicalKeyObject> Keys { get; set; }
     }
 }

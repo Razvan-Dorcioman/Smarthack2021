@@ -1,6 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using Azure.Identity;
+using Azure.Security.KeyVault.Keys;
+using Azure.Security.KeyVault.Keys.Cryptography;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Crypto.Engines;
@@ -11,77 +15,27 @@ namespace Smarthack2021.Core.CryptoAlgorithms
 {
     public class RSAEncryption : IRSAEncryption
     {
-        public string RsaEncryptWithPublic(string clearText, string publicKey)
+        public async Task<string> RsaEncrypt(string clearText, KeyVaultKey key)
         {
-            var bytesToEncrypt = Encoding.UTF8.GetBytes(clearText);
+            var inputAsByteArray = Encoding.UTF8.GetBytes(clearText);
 
-            var encryptEngine = new Pkcs1Encoding(new RsaEngine());
+            var cryptoClient = new CryptographyClient(key.Id, new DefaultAzureCredential());
 
-            using (var txtreader = new StringReader(publicKey))
-            {
-                var keyParameter = (AsymmetricKeyParameter)new PemReader(txtreader).ReadObject();
+            var encryptResult =  await cryptoClient.EncryptAsync(EncryptionAlgorithm.RsaOaep, inputAsByteArray);
 
-                encryptEngine.Init(true, keyParameter);
-            }
-
-            var encrypted = Convert.ToBase64String(encryptEngine.ProcessBlock(bytesToEncrypt, 0, bytesToEncrypt.Length));
-            return encrypted;
-
+            return Convert.ToBase64String(encryptResult.Ciphertext);
         }
-
-        public string RsaEncryptWithPrivate(string clearText, string privateKey)
-        {
-            var bytesToEncrypt = Encoding.UTF8.GetBytes(clearText);
-
-            var encryptEngine = new Pkcs1Encoding(new RsaEngine());
-
-            using (var txtreader = new StringReader(privateKey))
-            {
-                var keyPair = (AsymmetricCipherKeyPair)new PemReader(txtreader).ReadObject();
-
-                encryptEngine.Init(true, keyPair.Private);
-            }
-
-            var encrypted = Convert.ToBase64String(encryptEngine.ProcessBlock(bytesToEncrypt, 0, bytesToEncrypt.Length));
-            return encrypted;
-        }
-
-
+        
         // Decryption:
-
-        public string RsaDecryptWithPrivate(string base64Input, string privateKey)
+        public async Task<string> RsaDecrypt(string base64Input, KeyVaultKey key)
         {
-            var bytesToDecrypt = Convert.FromBase64String(base64Input);
+            var inputAsByteArray = Convert.FromBase64String(base64Input);
+            
+            var cryptoClient = new CryptographyClient(key.Id, new DefaultAzureCredential());
 
-            AsymmetricCipherKeyPair keyPair;
-            var decryptEngine = new Pkcs1Encoding(new RsaEngine());
+            var decryptResult = await cryptoClient.DecryptAsync(EncryptionAlgorithm.RsaOaep, inputAsByteArray);
 
-            using (var txtreader = new StringReader(privateKey))
-            {
-                keyPair = (AsymmetricCipherKeyPair)new PemReader(txtreader).ReadObject();
-
-                decryptEngine.Init(false, keyPair.Private);
-            }
-
-            var decrypted = Encoding.UTF8.GetString(decryptEngine.ProcessBlock(bytesToDecrypt, 0, bytesToDecrypt.Length));
-            return decrypted;
-        }
-
-        public string RsaDecryptWithPublic(string base64Input, string publicKey)
-        {
-            var bytesToDecrypt = Convert.FromBase64String(base64Input);
-
-            var decryptEngine = new Pkcs1Encoding(new RsaEngine());
-
-            using (var txtreader = new StringReader(publicKey))
-            {
-                var keyParameter = (AsymmetricKeyParameter)new PemReader(txtreader).ReadObject();
-
-                decryptEngine.Init(false, keyParameter);
-            }
-
-            var decrypted = Encoding.UTF8.GetString(decryptEngine.ProcessBlock(bytesToDecrypt, 0, bytesToDecrypt.Length));
-            return decrypted;
+            return Encoding.Default.GetString(decryptResult.Plaintext);
         }
     }
 }

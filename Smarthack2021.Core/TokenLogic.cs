@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Smarthack2021.Core.LoginAbstractions;
 
-namespace Smarthack2021.Core.LoginAbstractions
+namespace Smarthack2021.Core
 {
     public class TokenLogic : ITokenLogic
     {

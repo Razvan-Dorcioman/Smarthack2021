@@ -16,7 +16,6 @@ namespace Smarthack2021.Controllers
     [Route("[controller]/[action]")]
     public class AuthController : ControllerBase
     {
-
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly ITokenLogic _tokenLogic;
@@ -66,7 +65,6 @@ namespace Smarthack2021.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterInfoDto userRegistrationInfo)
         {
-
             if (userRegistrationInfo == null || !ModelState.IsValid)
                 return BadRequest();
 
