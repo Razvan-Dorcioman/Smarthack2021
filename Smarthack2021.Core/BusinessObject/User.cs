@@ -17,5 +17,7 @@ namespace Smarthack2021.Core.BusinessObject
         public List<PasswordObject> Passwords { get; set; }
         
         public List<CryptographicalKeyObject> Keys { get; set; }
+
+        public string Salt { get; set; }
     }
 }

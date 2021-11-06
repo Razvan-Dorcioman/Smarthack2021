@@ -9,6 +9,8 @@ using Smarthack2021.Core.BusinessObject;
 using AutoMapper;
 using Smarthack2021.Core.LoginAbstractions;
 using System.Security.Claims;
+using Smarthack2021.Core;
+using Microsoft.Extensions.Configuration;
 
 namespace Smarthack2021.Controllers
 {
@@ -20,9 +22,10 @@ namespace Smarthack2021.Controllers
         private readonly IMapper _mapper;
         private readonly ITokenLogic _tokenLogic;
 
-        public AuthController(UserManager<User> userManager, IMapper mapper, ITokenLogic tokenLogic)
+        public AuthController(UserManager<User> userManager, IConfiguration configuration, IMapper mapper, ITokenLogic tokenLogic)
         {
             _userManager = userManager;
+            _userManager.PasswordHasher = new SaltNPepperHash(configuration);
             _mapper = mapper;
             _tokenLogic = tokenLogic;
         }
