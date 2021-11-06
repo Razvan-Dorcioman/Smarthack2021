@@ -13,9 +13,9 @@ namespace Smarthack2021.Core.CryptoGenerators
         {
             var generator = GeneratorUtilities.GetKeyGenerator("DESEDE");
 
-            var result = generator.GenerateKey();
+            var key = generator.GenerateKey();
             
-            var strResult = System.Text.Encoding.Default.GetString(result);
+            var strResult = System.Convert.ToBase64String(key);
 
             return strResult;
         }

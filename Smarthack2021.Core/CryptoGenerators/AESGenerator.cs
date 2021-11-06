@@ -9,9 +9,9 @@ namespace Smarthack2021.Core.CryptoGenerators
         {
             var generator = GeneratorUtilities.GetKeyGenerator("AES256");
 
-            var result = generator.GenerateKey(); // 256 bit key
+            var key = generator.GenerateKey(); // 256 bit key
             
-            var strResult = System.Text.Encoding.Default.GetString(result);
+            var strResult = System.Convert.ToBase64String(key);
 
             return strResult;
         }

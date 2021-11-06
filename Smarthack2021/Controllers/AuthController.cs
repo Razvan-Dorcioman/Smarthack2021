@@ -30,17 +30,18 @@ namespace Smarthack2021.Controllers
 
         public async Task<IActionResult> Login([FromBody] LoginInfoDto userLoginInfo)
         {
+            //TODO: Change in Invalid Credentials
             if (userLoginInfo == null)
                 return BadRequest("Invalid client request");
 
             User user = await _userManager.FindByEmailAsync(userLoginInfo.Email);
             if (user == null)
-                return Unauthorized("Email is invalid!");
+                return BadRequest("Email is invalid!");
 
 
             var passwordCheck = await _userManager.CheckPasswordAsync(user, userLoginInfo.Password);
             if (!passwordCheck)
-                return Unauthorized("Password is invalid!");
+                return BadRequest("Password is invalid!");
 
             var userClaims = new List<Claim>
             {
