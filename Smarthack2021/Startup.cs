@@ -36,6 +36,16 @@ namespace Smarthack2021
         {
             services.AddControllers();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+                });
+            });
+
             services.AddDbContext<UserContext>(o => {
                 o.UseSqlServer(Configuration.GetConnectionString("RealConnection"));
             });
