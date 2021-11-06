@@ -11,6 +11,8 @@ namespace Smarthack2021.Core.BusinessObject
         
         public string EncryptedPassword { get; set; }
 
-        public string Tag { get; set; }
+        public string Tags { get; set; }
+
+        public User User { get; set; }
     }
 }

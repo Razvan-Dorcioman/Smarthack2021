@@ -14,5 +14,7 @@ namespace Smarthack2021.Core.BusinessObject
         public string EncryptedPublicKey { get; set; }
         
         public CryptoType Type { get; set; }
+        
+        public User User { get; set; }
     }
 }

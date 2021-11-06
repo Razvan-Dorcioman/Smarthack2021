@@ -12,9 +12,26 @@ namespace Smarthack2021.Data
     {
         public DbSet<User> Users { get; set; }
         
+        public DbSet<PasswordObject> Passwords { get; set; }
+
+        public DbSet<CryptographicalKeyObject> Keys { get; set; }
+
         public UserContext(DbContextOptions<UserContext> options)
             : base(options)
         {
+            
+        }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // configures one-to-many relationship
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Passwords)
+                .WithOne(p => p.User);
+            
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Keys)
+                .WithOne(k => k.User);
         }
     }
 }
