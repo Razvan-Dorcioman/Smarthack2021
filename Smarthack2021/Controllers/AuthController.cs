@@ -14,7 +14,7 @@ namespace Smarthack2021.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
 
         private readonly UserManager<User> _userManager;

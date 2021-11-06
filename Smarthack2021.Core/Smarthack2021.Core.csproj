@@ -8,6 +8,11 @@
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
       <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.14.1" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" />
+      <PackageReference Include="Azure.Identity" Version="1.5.0" />
+      <PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.3.0-beta.2" />
+      <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.3.0-beta.2" />
+      <PackageReference Include="BouncyCastle.NetCore" Version="1.8.8" />
+      <PackageReference Include="ElipticCurvePemPublicKeyReader" Version="1.0.4" />
     </ItemGroup>
 
 </Project>

@@ -19,6 +19,9 @@ using Microsoft.OpenApi.Models;
 using Smarthack2021.Core.BusinessObject;
 using Smarthack2021.Core.LoginAbstractions;
 using Smarthack2021.Data;
+using Smarthack2021.Core;
+using Smarthack2021.Core.CryptoAbstractions;
+using Smarthack2021.Core.CryptoAlgorithms;
 
 namespace Smarthack2021
 {
@@ -34,6 +37,10 @@ namespace Smarthack2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ICryptoOrchestrator, CryptoOrchestrator>();
+            services.AddSingleton<IKeyVaultService, KeyVaultService>();
+            services.AddSingleton<IRSAEncryption, RSAEncryption>();
+
             services.AddControllers();
 
             services.AddCors(options =>
