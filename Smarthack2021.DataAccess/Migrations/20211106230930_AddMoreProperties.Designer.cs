@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Smarthack2021.Data;
 
 namespace Smarthack2021.DataAccess.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20211106230930_AddMoreProperties")]
+    partial class AddMoreProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,9 +56,6 @@ namespace Smarthack2021.DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("EncryptedPassword")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tag")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")

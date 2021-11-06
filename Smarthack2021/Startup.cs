@@ -55,7 +55,7 @@ namespace Smarthack2021
             });
 
             services.AddDbContext<UserContext>(o => {
-                o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                o.UseSqlServer(Configuration.GetConnectionString("RealConnection"));
             });
 
             services.AddIdentity<User, IdentityRole>()
