@@ -27,15 +27,15 @@ namespace Smarthack2021.Data
 
         public IEnumerable<PasswordObject> GetPasswords(string userId)
         {
-            var user = _userContext.Users.FirstOrDefault(u => u.Id == userId);
+            var passwords = _userContext.Passwords.Where(p => p.User.Id == userId);
 
-            return user?.Passwords;
+            return passwords;
         }
 
         public PasswordObject GetPasswordById(Guid passwordId, string userId)
         {
-            var user = _userContext.Users.FirstOrDefault(u => u.Id == userId);
-            return user?.Passwords?.FirstOrDefault(p => p.Id == passwordId);
+            var password = _userContext.Passwords.FirstOrDefault(p => p.User.Id == userId);
+            return password;
         }
 
         public async Task<PasswordObject> AddPassword(PasswordObject password, string userId)

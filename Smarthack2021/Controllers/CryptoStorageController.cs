@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,11 +21,14 @@ namespace Smarthack2021.Controllers
         private ICryptoOrchestrator _cryptoOrchestrator { get; set; }
         
         private readonly UserManager<User> _userManager;
+        
+        private IMapper _mapper { get; set; }
 
-        public CryptoStorageController(ICryptoOrchestrator cryptoOrchestrator, UserManager<User> userManager)
+        public CryptoStorageController(ICryptoOrchestrator cryptoOrchestrator, UserManager<User> userManager, IMapper mapper)
         {
             _cryptoOrchestrator = cryptoOrchestrator;
             _userManager = userManager;
+            _mapper = mapper;
         }
         
         [HttpPost("addPassword")]
@@ -66,7 +70,8 @@ namespace Smarthack2021.Controllers
             
             var res = await _cryptoOrchestrator.GetPassword(new Guid(passwordId), user.Id.ToString());
 
-            return Ok(res);
+            var resDto = _mapper.Map<PasswordDto>(res);
+            return Ok(resDto);
         }
 
         [HttpGet("getPasswords")]
@@ -87,7 +92,9 @@ namespace Smarthack2021.Controllers
             
             var res = await _cryptoOrchestrator.GetAllPasswords(user.Id.ToString());
 
-            return Ok(res);
+            var resDto = _mapper.Map<List<PasswordDto>>(res);
+
+            return Ok(resDto);
         }
         
         [HttpDelete("deletePassword/{passwordId}")]
