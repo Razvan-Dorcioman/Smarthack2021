@@ -9,7 +9,7 @@ namespace Smarthack2021.Core.CryptoGenerators
 {
     public class TripleDESGenerator
     {
-        public string EncryptDES3_CBC(byte[] message)
+        public string EncryptDES3_CBC()
         {
             var generator = GeneratorUtilities.GetKeyGenerator("DESEDE");
 

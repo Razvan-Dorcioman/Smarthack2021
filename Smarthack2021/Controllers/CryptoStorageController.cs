@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Smarthack2021.Core.BusinessObject;
 using Smarthack2021.Core.CryptoAbstractions;
+using Smarthack2021.Core.CryptoGenerators;
+using Smarthack2021.Core.Enums;
 using Smarthack2021.Dto;
 
 namespace Smarthack2021.Controllers
@@ -194,6 +196,39 @@ namespace Smarthack2021.Controllers
 
             return Ok(res);
         }
+
+        [HttpGet("generateKey/{type}")]
+        public async Task<ObjectResult> GenerateKey(int type)
+        {
+
+            var key = new object();
+
+            switch (type)
+            {
+                case 0:
+                    var aesGenerator = new AESGenerator();
+                    key = aesGenerator.Generate();
+                    break;
+                case 1:
+                    var tripleDesGenerator= new TripleDESGenerator();
+                    key = tripleDesGenerator.EncryptDES3_CBC();
+
+                    break;
+
+                case 2:
+                    var rsaGenerator = new RSAGenerator();
+                    key = rsaGenerator.RsaGenerator();
+
+                    break;
+                case 3:
+                    var eccGenerator = new ECCGenerator();
+                    key = eccGenerator.GenerateKeys();
+                    break;
+            }
+
+            return Ok(new { key });
+        }
+
 
     }
 }

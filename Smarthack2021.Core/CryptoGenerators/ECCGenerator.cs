@@ -13,19 +13,21 @@ namespace Smarthack2021.Core.CryptoGenerators
 
         private static string FormatString(string key, bool IsPrivate = false)
         {
-            string startString = "-----BEGIN EC PUBLIC KEY-----\n";
-            string endString = "\n-----END EC PUBLIC KEY-----";
+            //string startString = "-----BEGIN EC PUBLIC KEY-----\n";
+            //string endString = "\n-----END EC PUBLIC KEY-----";
 
-            if (IsPrivate)
-            {
-                startString = "-----BEGIN EC PRIVATE KEY-----\n";
-                endString = "\n-----END EC PRIVATE KEY-----";
-            }
+            //if (IsPrivate)
+            //{
+            //    startString = "-----BEGIN EC PRIVATE KEY-----\n";
+            //    endString = "\n-----END EC PRIVATE KEY-----";
+            //}
 
-            return startString + key + endString;
+            //return startString + key + endString;
+
+            return key;
         }
 
-        public static object GenerateKeys() {
+        public object GenerateKeys() {
             var gen = new ECKeyPairGenerator();
             var secureRandom = new SecureRandom();
             var keyGenParam = new KeyGenerationParameters(secureRandom, 256);

@@ -18,16 +18,17 @@ namespace Smarthack2021.Core.CryptoGenerators
         static string FormatKey(string key, bool isPrivate = false)
         {
 
-            string startString = "-----BEGIN RSA PUBLIC KEY-----\n";
-            string endString = "\n-----END RSA PUBLIC KEY-----";
+            //string startString = "-----BEGIN RSA PUBLIC KEY-----\n";
+            //string endString = "\n-----END RSA PUBLIC KEY-----";
 
-            if (isPrivate)
-            {
-                startString = "-----BEGIN RSA PRIVATE KEY-----\n";
-                endString = "\n-----END RSA PRIVATE KEY-----";
-            }
+            //if (isPrivate)
+            //{
+            //    startString = "-----BEGIN RSA PRIVATE KEY-----\n";
+            //    endString = "\n-----END RSA PRIVATE KEY-----";
+            //}
 
-            return startString + key + endString;
+            //return startString + key + endString;
+            return key;
         }
 
         public object RsaGenerator()
