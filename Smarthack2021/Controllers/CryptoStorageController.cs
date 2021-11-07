@@ -56,7 +56,7 @@ namespace Smarthack2021.Controllers
             return Ok(resDto);
         }
         
-        [HttpGet("generatePassword")]
+        [HttpPost("generatePassword")]
         public async Task<ObjectResult> GeneratePassword([FromBody] PasswordGeneratorDto password)
         {
             var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
