@@ -14,6 +14,8 @@ namespace Smarthack2021.MapperProfiles
 
             CreateMap<PasswordObject, PasswordDto>()
                 .ForMember(p => p.Password, from => from.MapFrom(x => x.EncryptedPassword));
+
+            CreateMap<PasswordGeneratorDto, PasswordGenerator>().ReverseMap();
         }
     }
 }

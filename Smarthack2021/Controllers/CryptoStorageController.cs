@@ -52,6 +52,27 @@ namespace Smarthack2021.Controllers
             return Ok(res);
         }
         
+        [HttpPost("generatePassword")]
+        [Authorize]
+        public async Task<ObjectResult> GeneratePassword([FromBody] PasswordGeneratorDto password)
+        {
+            var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
+
+            if (claims == null || !claims.Any()) return BadRequest("You must login first!");
+
+            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            
+            if(email == null) return BadRequest("No email found");
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null) return NotFound("User not found!");
+            
+            var res = await _cryptoOrchestrator.GeneratePassword(_mapper.Map<PasswordGenerator>(password), user.Id);
+            
+            return Ok(res);
+        }
+        
         [HttpGet("getPassword/{passwordId}")]
         [Authorize]
         public async Task<ObjectResult> GetPassword(string passwordId)
