@@ -121,7 +121,7 @@ namespace Smarthack2021.Core
 
             var cryptoKeyDb = new CryptographicalKeyObject
             {
-                UserName = username,
+                Name = username,
                 EncryptedPublicKey = encryptedPublicKey,
                 EncryptedPrivateKey = encryptedPrivateKey,
                 Type = type
@@ -149,5 +149,11 @@ namespace Smarthack2021.Core
             return userKey;
         }
 
+        public async Task<object> DeleteKey(Guid keyId, string userId)
+        {
+            var result = await _userRepository.DeleteKey(keyId, userId);
+
+            return result;
+        }
     }
 }

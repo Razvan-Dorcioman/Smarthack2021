@@ -96,15 +96,17 @@ namespace Smarthack2021.Data
 
         public async Task<bool> DeleteKey(Guid keyId, string userId)
         {
-            var user = _userContext.Users.FirstOrDefault(u => u.Id == userId);
+            var keyToRemove = _userContext.Keys.FirstOrDefault(u => u.Id == keyId && u.User.Id == userId);
 
-            var keyToRemove = user?.Keys.FirstOrDefault(k => k.Id == keyId);
-            
+            // var passToRemove = user?.Passwords?.FirstOrDefault(p => p.Id == passwordId);
+            //
             if (keyToRemove == null) return false;
 
-            user.Keys.Remove(keyToRemove);
-            
-            return await Save(user);
+            _userContext.Keys.Remove(keyToRemove);
+
+            //user.Passwords.Remove(passToRemove);
+
+            return await Save();
         }
         
         public async Task<bool> Save(User user = null)

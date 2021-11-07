@@ -15,5 +15,6 @@ namespace Smarthack2021.Core.CryptoAbstractions
         Task<string> GeneratePassword(PasswordGenerator passwordProps, string userId);
         Task<CryptographicalKeyObject> AddCryptoKey(string username, string publicKey, string? privateKey, string userId, CryptoType type);
         Task<CryptographicalKeyObject> GetCryptographicalKey(Guid keyId, string userId);
+        Task<object> DeleteKey(Guid guid, string userId);
     }
 }

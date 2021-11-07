@@ -11,7 +11,7 @@ namespace Smarthack2021.Dto
     {
         public Guid Id { get; set; }
 
-        public string UserName { get; set; }
+        public string Name { get; set; }
 
         public string PrivateKey { get; set; }
 

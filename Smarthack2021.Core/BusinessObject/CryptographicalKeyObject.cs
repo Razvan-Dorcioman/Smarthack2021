@@ -7,7 +7,7 @@ namespace Smarthack2021.Core.BusinessObject
     { 
         public Guid Id { get; set; }
         
-        public string UserName { get; set; }
+        public string Name { get; set; }
 
         public string EncryptedPrivateKey { get; set; }
 

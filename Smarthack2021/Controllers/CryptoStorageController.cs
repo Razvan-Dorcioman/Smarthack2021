@@ -174,8 +174,26 @@ namespace Smarthack2021.Controllers
             var resDto = _mapper.Map<CryptoKeyDto>(res);
             return Ok(resDto);
         }
+        
+        [HttpDelete("deleteKey/{keyId}")]
+        public async Task<ObjectResult> DeleteKey(string keyId)
+        {
+            var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
+
+            if (claims == null || !claims.Any()) return BadRequest("You must login first!");
+
+            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            
+            if(email == null) return BadRequest("No email found");
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null) return NotFound("User not found!");
+            
+            var res = await _cryptoOrchestrator.DeleteKey(new Guid(keyId), user.Id);
+
+            return Ok(res);
+        }
 
     }
 }
-//Id user
-//3ac87964-ca31-475a-8320-4a20b92478ab
