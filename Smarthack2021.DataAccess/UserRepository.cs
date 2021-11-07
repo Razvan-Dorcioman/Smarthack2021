@@ -53,15 +53,17 @@ namespace Smarthack2021.Data
 
         public async Task<bool> DeletePassword(Guid passwordId, string userId)
         {
-            var user = _userContext.Users.FirstOrDefault(u => u.Id == userId);
+            var passToRemove = _userContext.Passwords.FirstOrDefault(u => u.Id == passwordId && u.User.Id == userId);
 
-            var passToRemove = user?.Passwords.FirstOrDefault(p => p.Id == passwordId);
+            // var passToRemove = user?.Passwords?.FirstOrDefault(p => p.Id == passwordId);
+            //
+             if (passToRemove == null) return false;
 
-            if (passToRemove == null) return false;
+             _userContext.Passwords.Remove(passToRemove);
 
-            user.Passwords.Remove(passToRemove);
+            //user.Passwords.Remove(passToRemove);
 
-            return await Save(user);
+            return await Save();
         }
 
         public IEnumerable<CryptographicalKeyObject> GetKeys(string userId)
@@ -105,9 +107,12 @@ namespace Smarthack2021.Data
             return await Save(user);
         }
         
-        public async Task<bool> Save(User user)
+        public async Task<bool> Save(User user = null)
         {
             var resultContext = await _userContext.SaveChangesAsync();
+            
+            if (user == null && resultContext > 0) return true;
+            
             var result = await _userManager.UpdateAsync(user);
 
             return result.Succeeded && resultContext > 0;

@@ -68,7 +68,7 @@ namespace Smarthack2021.Controllers
 
             if (user == null) return NotFound("User not found!");
             
-            var res = await _cryptoOrchestrator.GetPassword(new Guid(passwordId), user.Id.ToString());
+            var res = await _cryptoOrchestrator.GetPassword(new Guid(passwordId), user.Id);
 
             var resDto = _mapper.Map<PasswordDto>(res);
             return Ok(resDto);
@@ -90,7 +90,7 @@ namespace Smarthack2021.Controllers
 
             if (user == null) return NotFound("User not found!");
             
-            var res = await _cryptoOrchestrator.GetAllPasswords(user.Id.ToString());
+            var res = await _cryptoOrchestrator.GetAllPasswords(user.Id);
 
             var resDto = _mapper.Map<List<PasswordDto>>(res);
 
@@ -113,7 +113,7 @@ namespace Smarthack2021.Controllers
 
             if (user == null) return NotFound("User not found!");
             
-            var res = await _cryptoOrchestrator.DeletePassword(new Guid(passwordId), user.Id.ToString());
+            var res = await _cryptoOrchestrator.DeletePassword(new Guid(passwordId), user.Id);
 
             return Ok(res);
         }
