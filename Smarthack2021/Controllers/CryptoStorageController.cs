@@ -138,5 +138,48 @@ namespace Smarthack2021.Controllers
 
             return Ok(res);
         }
+    
+        [HttpPost("addKey")]
+        [Authorize]
+        public async Task<ObjectResult> AddKey([FromBody] CryptoKeyDto key)
+        {
+            var claims = ((ClaimsIdentity)User.Identity)?.Claims.ToList();
+            if (claims == null || !claims.Any()) return BadRequest("You must login first!");
+
+            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            if (email == null) return BadRequest("No email found");
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return NotFound("User not found!");
+
+            var result = await _cryptoOrchestrator.AddCryptoKey(user.UserName, key.PublicKey, key.PrivateKey, user.Id, key.Type);
+            
+            return Ok(result);
+        }
+
+        [HttpGet("getKey/{keyId}")]
+        [Authorize]
+        public async Task<ObjectResult> GetKey(string keyId)
+        {
+            var claims = ((ClaimsIdentity)User.Identity)?.Claims.ToList();
+
+            if (claims == null || !claims.Any()) return BadRequest("You must login first!");
+
+            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+            if (email == null) return BadRequest("No email found");
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null) return NotFound("User not found!");
+
+            var res = await _cryptoOrchestrator.GetCryptographicalKey(new Guid(keyId), user.Id);
+
+            var resDto = _mapper.Map<CryptoKeyDto>(res);
+            return Ok(resDto);
+        }
+
     }
 }
+//Id user
+//3ac87964-ca31-475a-8320-4a20b92478ab

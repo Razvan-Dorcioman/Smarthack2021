@@ -68,16 +68,16 @@ namespace Smarthack2021.Data
 
         public IEnumerable<CryptographicalKeyObject> GetKeys(string userId)
         {
-            var user = _userContext.Users.FirstOrDefault(u => u.Id == userId);
+            var keys = _userContext.Keys.Where(p => p.User.Id == userId);
 
-            return user?.Keys;
+            return keys;
         }
 
-        public CryptographicalKeyObject GetKeysById(Guid keyId, string userId)
+        public CryptographicalKeyObject GetKeyById(Guid keyId, string userId)
         {
-            var user = _userContext.Users.FirstOrDefault(u => u.Id == userId);
+            var key = _userContext.Keys.FirstOrDefault(k => k.User.Id == userId);
 
-            return user?.Keys.FirstOrDefault(k => k.Id == keyId);
+            return key;
         }
 
         public async Task<CryptographicalKeyObject> AddKey(CryptographicalKeyObject key, string userId)

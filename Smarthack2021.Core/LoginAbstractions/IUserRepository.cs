@@ -17,7 +17,7 @@ namespace Smarthack2021.Core.LoginAbstractions
         
         IEnumerable<CryptographicalKeyObject> GetKeys(string userId);
         
-        CryptographicalKeyObject GetKeysById(Guid keyId, string userId);
+        CryptographicalKeyObject GetKeyById(Guid keyId, string userId);
         
         Task<CryptographicalKeyObject> AddKey(CryptographicalKeyObject key, string userId);
         

@@ -8,6 +8,7 @@ using Azure.Security.KeyVault.Keys.Cryptography;
 using Microsoft.AspNetCore.Identity;
 using Smarthack2021.Core.BusinessObject;
 using Smarthack2021.Core.CryptoAbstractions;
+using Smarthack2021.Core.Enums;
 using Smarthack2021.Core.LoginAbstractions;
 
 namespace Smarthack2021.Core
@@ -78,5 +79,44 @@ namespace Smarthack2021.Core
         {
             throw new NotImplementedException();
         }
+
+        public async Task<CryptographicalKeyObject> AddCryptoKey(string username, string publicKey, string? privateKey,string userId, CryptoType type)
+        {
+            //TODO: Check if userKey is correct type
+            var vaultKey = await _keyVaultService.GetKey("UserKeys");
+
+            var encryptedPublicKey = await _rsaEncryption.RsaEncrypt(publicKey, vaultKey);
+            var encryptedPrivateKey = string.IsNullOrEmpty(privateKey) ? string.Empty : await _rsaEncryption.RsaEncrypt(privateKey, vaultKey);
+
+            var cryptoKeyDb = new CryptographicalKeyObject
+            {
+                UserName = username,
+                EncryptedPublicKey = encryptedPublicKey,
+                EncryptedPrivateKey = encryptedPrivateKey,
+                Type = type
+            };
+
+            var result = await _userRepository.AddKey(cryptoKeyDb, userId);
+
+            return result;
+        }
+        
+        public async Task<CryptographicalKeyObject> GetCryptographicalKey(Guid keyId, string userId)
+        {
+            var vaultKey = await _keyVaultService.GetKey("UserKeys");
+
+            var userKey = _userRepository.GetKeyById(keyId, userId);
+
+            if (userKey == null) return null;
+
+            var decryptedPublicKey = await _rsaEncryption.RsaDecrypt(userKey.EncryptedPublicKey, vaultKey);
+            var decryptedPrivateKey = string.IsNullOrEmpty(userKey?.EncryptedPrivateKey) ? string.Empty : await _rsaEncryption.RsaDecrypt(userKey.EncryptedPrivateKey, vaultKey);
+
+            userKey.EncryptedPrivateKey = decryptedPrivateKey;
+            userKey.EncryptedPublicKey = decryptedPublicKey;
+
+            return userKey;
+        }
+
     }
 }
