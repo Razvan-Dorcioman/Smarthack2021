@@ -73,5 +73,10 @@ namespace Smarthack2021.Core
 
             return result;
         }
+
+        public Task<PasswordGenerator> GeneratePassword(PasswordGenerator map, string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
