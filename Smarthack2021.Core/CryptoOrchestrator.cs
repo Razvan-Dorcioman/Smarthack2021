@@ -80,7 +80,7 @@ namespace Smarthack2021.Core
             return result;
         }
 
-        public string GeneratePassword(PasswordGenerator passwordProps, string userId)
+        public async Task<string> GeneratePassword(PasswordGenerator passwordProps, string userId)
         {
             var generatePassword = GeneratePassword(passwordProps.UpperCase, passwordProps.Number,
                 passwordProps.NonAlphaNumericCharacter, passwordProps.Length);
@@ -111,8 +111,7 @@ namespace Smarthack2021.Core
             return string.Join(null, _password);
         }
 
-        public async Task<CryptographicalKeyObject> AddCryptoKey(string username, string publicKey, 
-            string? privateKey,string userId, CryptoType type)
+        public async Task<CryptographicalKeyObject> AddCryptoKey(string username, string publicKey, string? privateKey,string userId, CryptoType type)
         {
             //TODO: Check if userKey is correct type
             var vaultKey = await _keyVaultService.GetKey("UserKeys");
