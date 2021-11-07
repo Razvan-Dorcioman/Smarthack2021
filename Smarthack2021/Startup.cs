@@ -99,7 +99,8 @@ namespace Smarthack2021
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+            app.UseCors("EnableCORS");
+
             app.UseAuthentication();
             app.UseAuthorization();
 

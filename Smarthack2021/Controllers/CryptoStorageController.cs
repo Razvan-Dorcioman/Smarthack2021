@@ -15,6 +15,7 @@ using Smarthack2021.Dto;
 namespace Smarthack2021.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class CryptoStorageController : ControllerBase
     {
@@ -32,7 +33,6 @@ namespace Smarthack2021.Controllers
         }
         
         [HttpPost("addPassword")]
-        [Authorize]
         public async Task<ObjectResult> AddPassword([FromBody] PasswordDto password)
         {
             var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
@@ -55,7 +55,6 @@ namespace Smarthack2021.Controllers
         }
         
         [HttpPost("generatePassword")]
-        [Authorize]
         public async Task<ObjectResult> GeneratePassword([FromBody] PasswordGeneratorDto password)
         {
             var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
@@ -76,7 +75,6 @@ namespace Smarthack2021.Controllers
         }
         
         [HttpGet("getPassword/{passwordId}")]
-        [Authorize]
         public async Task<ObjectResult> GetPassword(string passwordId)
         {
             var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
@@ -98,7 +96,6 @@ namespace Smarthack2021.Controllers
         }
 
         [HttpGet("getPasswords")]
-        [Authorize]
         public async Task<ObjectResult> GetPasswords()
         {
             var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
@@ -121,7 +118,6 @@ namespace Smarthack2021.Controllers
         }
         
         [HttpDelete("deletePassword/{passwordId}")]
-        [Authorize]
         public async Task<ObjectResult> DeletePassword(string passwordId)
         {
             var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
@@ -142,7 +138,6 @@ namespace Smarthack2021.Controllers
         }
     
         [HttpPost("addKey")]
-        [Authorize]
         public async Task<ObjectResult> AddKey([FromBody] CryptoKeyDto key)
         {
             var claims = ((ClaimsIdentity)User.Identity)?.Claims.ToList();
@@ -160,7 +155,6 @@ namespace Smarthack2021.Controllers
         }
 
         [HttpGet("getKey/{keyId}")]
-        [Authorize]
         public async Task<ObjectResult> GetKey(string keyId)
         {
             var claims = ((ClaimsIdentity)User.Identity)?.Claims.ToList();
