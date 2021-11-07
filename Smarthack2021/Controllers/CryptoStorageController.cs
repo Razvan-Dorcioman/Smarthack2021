@@ -56,7 +56,7 @@ namespace Smarthack2021.Controllers
             return Ok(resDto);
         }
         
-        [HttpPost("generatePassword")]
+        [HttpGet("generatePassword")]
         public async Task<ObjectResult> GeneratePassword([FromBody] PasswordGeneratorDto password)
         {
             var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
@@ -151,7 +151,7 @@ namespace Smarthack2021.Controllers
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null) return NotFound("User not found!");
 
-            var result = await _cryptoOrchestrator.AddCryptoKey(user.UserName, key.PublicKey, key.PrivateKey, user.Id, key.Type);
+            var result = await _cryptoOrchestrator.AddCryptoKey(key.Name, key.PublicKey, key.PrivateKey, user.Id, key.Type);
             
             return Ok(result);
         }
@@ -195,6 +195,28 @@ namespace Smarthack2021.Controllers
             var res = await _cryptoOrchestrator.DeleteKey(new Guid(keyId), user.Id);
 
             return Ok(res);
+        }
+        
+        [HttpGet("getKeys")]
+        public async Task<ObjectResult> GetKeys()
+        {
+            var claims = ((ClaimsIdentity) User.Identity)?.Claims.ToList();
+
+            if (claims == null || !claims.Any()) return BadRequest("You must login first!");
+
+            var email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            
+            if(email == null) return BadRequest("No email found");
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null) return NotFound("User not found!");
+            
+            var res = await _cryptoOrchestrator.GetAllKeys(user.Id);
+
+            var resDto = _mapper.Map<List<CryptoKeyDto>>(res);
+
+            return Ok(resDto);
         }
 
         [HttpGet("generateKey/{type}")]
