@@ -155,5 +155,13 @@ namespace Smarthack2021.Core
 
             return result;
         }
+
+        public async Task<List<CryptographicalKeyObject>> GetAllKeys(string userId)
+        {
+            var keys = _userRepository.GetKeys(userId);
+
+            var keysObjects = keys.ToList();
+            return !keysObjects.Any() ? null : keysObjects.ToList();
+        }
     }
 }
