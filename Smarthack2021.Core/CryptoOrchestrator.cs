@@ -79,15 +79,15 @@ namespace Smarthack2021.Core
             return result;
         }
 
-        public async Task<PasswordObject> GeneratePassword(PasswordGenerator passwordProps, string userId)
+        public async Task<string> GeneratePassword(PasswordGenerator passwordProps, string userId)
         {
             var generatePassword = GeneratePassword(passwordProps.UpperCase, passwordProps.Number,
                 passwordProps.NonAlphaNumericCharacter, passwordProps.Length);
 
-            return await AddPassword(passwordProps.Username, generatePassword, userId);
+            return generatePassword;
         }
-        
-        public string GeneratePassword(bool useUppercase, bool useNumbers, bool useSpecial,
+
+        private string GeneratePassword(bool useUppercase, bool useNumbers, bool useSpecial,
             int passwordSize)
         {
             var _password = new char[passwordSize];
