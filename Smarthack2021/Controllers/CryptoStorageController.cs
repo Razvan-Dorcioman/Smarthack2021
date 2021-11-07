@@ -69,9 +69,9 @@ namespace Smarthack2021.Controllers
 
             if (user == null) return NotFound("User not found!");
             
-            var res = await _cryptoOrchestrator.GeneratePassword(_mapper.Map<PasswordGenerator>(password), user.Id);
+            var res = _cryptoOrchestrator.GeneratePassword(_mapper.Map<PasswordGenerator>(password), user.Id);
 
-            return Ok(res);
+            return Ok(new { res });
         }
         
         [HttpGet("getPassword/{passwordId}")]
