@@ -22,6 +22,7 @@ using Smarthack2021.Data;
 using Smarthack2021.Core;
 using Smarthack2021.Core.CryptoAbstractions;
 using Smarthack2021.Core.CryptoAlgorithms;
+using Smarthack2021.MapperProfiles;
 
 namespace Smarthack2021
 {
@@ -42,7 +43,8 @@ namespace Smarthack2021
             services.AddTransient<IRSAEncryption, RSAEncryption>();
             services.AddTransient<IUserRepository, UserRepository>();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddCors(options =>
             {
@@ -61,7 +63,8 @@ namespace Smarthack2021
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<UserContext>();
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(Startup), typeof(CryptoProfile));
+
             services.AddAuthentication(opt => {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
