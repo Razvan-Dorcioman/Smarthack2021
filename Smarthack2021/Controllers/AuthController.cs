@@ -25,7 +25,7 @@ namespace Smarthack2021.Controllers
         public AuthController(UserManager<User> userManager, IConfiguration configuration, IMapper mapper, ITokenLogic tokenLogic)
         {
             _userManager = userManager;
-            _userManager.PasswordHasher = new SaltNPepperHash(configuration);
+            _userManager.PasswordHasher = new SaltNPepperHash(configuration, new KeyVaultService());
             _mapper = mapper;
             _tokenLogic = tokenLogic;
         }
