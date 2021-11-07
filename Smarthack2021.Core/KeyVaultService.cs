@@ -14,7 +14,8 @@ namespace Smarthack2021.Core
 
         public KeyVaultService()
         {
-            _client = new KeyClient(new Uri("https://smarthack2021keys.vault.azure.net/"), new DefaultAzureCredential());;
+            var creds = new EnvironmentCredential();
+            _client = new KeyClient(new Uri("https://smarthack2021key.vault.azure.net/"), creds);;
         }
 
         public async Task<KeyVaultKey> GetKey(string keyName)

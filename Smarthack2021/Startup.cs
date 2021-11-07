@@ -42,6 +42,10 @@ namespace Smarthack2021
             services.AddTransient<IKeyVaultService, KeyVaultService>();
             services.AddTransient<IRSAEncryption, RSAEncryption>();
             services.AddTransient<IUserRepository, UserRepository>();
+            
+            Environment.SetEnvironmentVariable("AZURE_CLIENT_ID", "92a26559-fe8a-4f53-a71f-c285c6580945");
+            Environment.SetEnvironmentVariable("AZURE_TENANT_ID", "7e9f0b36-b938-4828-a039-b4f52b4d8e51");
+            Environment.SetEnvironmentVariable("AZURE_CLIENT_SECRET", "NzY9yb4Y3yhBJFa5~dufNYD0OOokBgfxUv");
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

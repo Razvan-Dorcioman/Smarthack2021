@@ -3,7 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    </PropertyGroup>
+      <UserSecretsId>a5be8fd7-4fd2-4b72-9a09-6d6ef7d89272</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
       <Content Remove="project.json" />
