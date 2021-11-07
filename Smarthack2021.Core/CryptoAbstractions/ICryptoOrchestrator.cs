@@ -11,6 +11,6 @@ namespace Smarthack2021.Core.CryptoAbstractions
         Task<PasswordObject> GetPassword(Guid passwordId, string userId);
         Task<List<PasswordObject>> GetAllPasswords(string userId);
         Task<bool> DeletePassword(Guid guid, string toString);
-        Task<PasswordGenerator> GeneratePassword(PasswordGenerator map, string userId);
+        Task<PasswordObject> GeneratePassword(PasswordGenerator map, string userId);
     }
 }

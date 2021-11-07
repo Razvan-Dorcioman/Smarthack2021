@@ -49,7 +49,9 @@ namespace Smarthack2021.Controllers
             
             var res = await _cryptoOrchestrator.AddPassword(password.Username, password.Password, user.Id);
             
-            return Ok(res);
+            var resDto = _mapper.Map<PasswordDto>(res);
+
+            return Ok(resDto);
         }
         
         [HttpPost("generatePassword")]
@@ -70,7 +72,9 @@ namespace Smarthack2021.Controllers
             
             var res = await _cryptoOrchestrator.GeneratePassword(_mapper.Map<PasswordGenerator>(password), user.Id);
             
-            return Ok(res);
+            var resDto = _mapper.Map<PasswordDto>(res);
+
+            return Ok(resDto);
         }
         
         [HttpGet("getPassword/{passwordId}")]

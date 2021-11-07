@@ -34,7 +34,7 @@ namespace Smarthack2021.Data
 
         public PasswordObject GetPasswordById(Guid passwordId, string userId)
         {
-            var password = _userContext.Passwords.FirstOrDefault(p => p.User.Id == userId);
+            var password = _userContext.Passwords.FirstOrDefault(p => p.Id == passwordId && p.User.Id == userId);
             return password;
         }
 

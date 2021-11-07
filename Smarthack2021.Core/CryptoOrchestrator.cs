@@ -19,6 +19,11 @@ namespace Smarthack2021.Core
         private IKeyVaultService _keyVaultService { get; }
         
         private IUserRepository _userRepository { get; set; }
+
+        private const string LOWER_CASE = "abcdefghijklmnopqursuvwxyz";
+        private const string UPPER_CASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string NUMBERS = "123456789";
+        private const string SPECIALS = @"!@£$%^&*()#€";
         
         public CryptoOrchestrator(IRSAEncryption rsaEncryption, IKeyVaultService keyVaultService, IUserRepository userRepository)
         {
@@ -74,9 +79,35 @@ namespace Smarthack2021.Core
             return result;
         }
 
-        public Task<PasswordGenerator> GeneratePassword(PasswordGenerator map, string userId)
+        public async Task<PasswordObject> GeneratePassword(PasswordGenerator passwordProps, string userId)
         {
-            throw new NotImplementedException();
+            var generatePassword = GeneratePassword(passwordProps.UpperCase, passwordProps.Number,
+                passwordProps.NonAlphaNumericCharacter, passwordProps.Length);
+
+            return await AddPassword(passwordProps.Username, generatePassword, userId);
+        }
+        
+        public string GeneratePassword(bool useUppercase, bool useNumbers, bool useSpecial,
+            int passwordSize)
+        {
+            var _password = new char[passwordSize];
+            var charSet = LOWER_CASE;
+            var _random = new Random();
+            int counter;
+
+            // Build up the character set to choose from
+            if (useUppercase) charSet += UPPER_CASE;
+
+            if (useNumbers) charSet += NUMBERS;
+
+            if (useSpecial) charSet += SPECIALS;
+
+            for (counter = 0; counter < passwordSize; counter++)
+            {
+                _password[counter] = charSet[_random.Next(charSet.Length - 1)];
+            }
+
+            return string.Join(null, _password);
         }
     }
 }

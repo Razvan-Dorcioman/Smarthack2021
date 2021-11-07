@@ -5,6 +5,7 @@ namespace Smarthack2021.Dto
     public class PasswordGeneratorDto
     {
         public Guid Id { get; set; }
+        
         public string Username { get; set; }
         
         public int Length { get; set; }
